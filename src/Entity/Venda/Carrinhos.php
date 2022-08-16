@@ -1,89 +1,47 @@
 <?php
 
-namespace Entity\Estoque;
+namespace Entity\Venda;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Categoria
+ * Carrinho
  *
  * @ORM\Table()
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class Categoria
+class Carrinho
 {
     /**
      * @var integer
      *
-     * @ORM\Column(nome="id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(nome="nome", type="string", length=255)
-     */
-    private $nome;
-
-    /**
      * @var \DateTime
      *
-     * @ORM\Column(nome="criado_em", type="datetime")
+     * @ORM\Column(name="criado_em", type="datetime")
      */
     private $criadoEm;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(nome="atualizadoEm", type="datetime")
+     * @ORM\Column(name="atualizadoEm", type="datetime")
      */
     private $atualizadoEm;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(nome="excluida", type="boolean")
-     */
-    private $excluido;
+     * @ORM\OneToMany(targetEntity="Produtos", cascade="persist")
+     * @ORM\JoinColumn(name="produtos", referencedColumnName="id")
+     * */
+    private $produtos;
 
- 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set nome
-     *
-     * @param string $nome
-     *
-     * @return Category
-     */
-    public function setNome($nome)
-    {
-        $this->nome = $nome;
-
-        return $this;
-    }
-
-    /**
-     * Get nome
-     *
-     * @return string
-     */
-    public function getNome()
-    {
-        return $this->nome;
-    }
 
     /**
      * Set criadoEm
@@ -134,49 +92,19 @@ class Categoria
     }
 
     /**
-     * Set excluido
-     *
-     * @param boolean $excluido
-     *
-     * @return Category
-     */
-    public function setExcluido($excluido)
-    {
-        $this->excluido = $excluido;
-
-        return $this;
-    }
-
-    /**
-     * Get excluido
-     *
-     * @return boolean
-     */
-    public function getExcluido()
-    {
-        return $this->excluido;
-    }
-
-    /**
-     * Estableciendo fecha de creación y actualización al crear
-     *
      * @ORM\PrePersist
      */
-    public function onCreate()
+    public function emCriacao()
     {
         $this->setCriadoEm(new \DateTime());
         $this->setAtualizadoEm(new \DateTime());
     }
 
     /**
-     * Estableciendo fecha de actualización
-     *
      * @ORM\PreUpdate
      */
     public function emAtualizacao()
     {
         $this->setAtualizadoEm(new \DateTime());
     }
-
-   
 }

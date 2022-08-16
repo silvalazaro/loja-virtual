@@ -1,26 +1,21 @@
 <?php
 
-namespace Entity\Estoque;
+namespace Entity\Produto;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * Produto
- *
- * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Table()
  * @ORM\HasLifecycleCallbacks
  *
  */
-class Produto
+class Produtos
 {
     /**
      * @var integer
      *
-     * @ORM\Column(nome="id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -29,36 +24,36 @@ class Produto
     /**
      * @var string
      *
-     * @ORM\Column(nome="nome", type="string", length=255)
+     * @ORM\Column(name="nome", type="string", length=255)
      */
     private $nome;
 
     /**
      * @ORM\ManyToOne(targetEntity="Categoria", cascade="persist")
-     * @ORM\JoinColumn(nome="categoria", referencedColumnNome="id")
+     * @ORM\JoinColumn(name="categoria", referencedColumnname="id")
      * */
     private $categoria;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(nome="created_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $criadoEm;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(nome="updated_at", type="datetime")
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $atualizadoEm;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(nome="excluido", type="boolean")
+     * @ORM\Column(name="excluido", type="boolean", null)
      */
-    private $excluido;
+    private $excluido = null;
 
     /**
      * @return integer

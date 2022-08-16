@@ -1,53 +1,82 @@
 <?php
 
-namespace Entity\Venda;
+namespace App\Entity\Produto;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Carrinho
- *
- * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Table()
  * @ORM\HasLifecycleCallbacks
  */
-class Carrinho
+class Categoria
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(nome="id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nome", type="string", length=255)
+     */
+    private ?string $nome = null;
+
+
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(nome="criado_em", type="datetime")
+     * @ORM\Column(name="criado_em", type="datetime")
      */
     private $criadoEm;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(nome="atualizadoEm", type="datetime")
+     * @ORM\Column(name="atualizadoEm", type="datetime")
      */
     private $atualizadoEm;
 
-      /**
-     * @ORM\OneToMany(targetEntity="Produtos", cascade="persist")
-     * @ORM\JoinColumn(name="produtos", referencedColumnName="id")
-     * */
-    private $produtos;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="excluida", type="boolean", nullable=true)
+     */
+    private $excluido;
 
+ 
+    
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     /**
-     * Set criadoEm
-     *
+     * @param string $nome
+     * @return Category
+     */
+    public function setNome($nome)
+    {
+        $this->nome = $nome;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    /**
      * @param \DateTime $criadoEm
-     *
      * @return Category
      */
     public function setCriadoEm($criadoEm)
@@ -58,8 +87,6 @@ class Carrinho
     }
 
     /**
-     * Get criadoEm
-     *
      * @return \DateTime
      */
     public function getCriadoEm()
@@ -68,10 +95,7 @@ class Carrinho
     }
 
     /**
-     * Set atualizadoEm
-     *
      * @param \DateTime $atualizadoEm
-     *
      * @return Category
      */
     public function setAtualizadoEm($atualizadoEm)
@@ -82,8 +106,6 @@ class Carrinho
     }
 
     /**
-     * Get atualizadoEm
-     *
      * @return \DateTime
      */
     public function getAtualizadoEm()
@@ -92,17 +114,34 @@ class Carrinho
     }
 
     /**
-     *
+     * @param boolean $excluido
+     * @return Category
+     */
+    public function setExcluido($excluido)
+    {
+        $this->excluido = $excluido;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getExcluido()
+    {
+        return $this->excluido;
+    }
+
+    /**
      * @ORM\PrePersist
      */
-    public function emCriacao()
+    public function onCreate()
     {
         $this->setCriadoEm(new \DateTime());
         $this->setAtualizadoEm(new \DateTime());
     }
 
     /**
-     *
      * @ORM\PreUpdate
      */
     public function emAtualizacao()
@@ -110,5 +149,4 @@ class Carrinho
         $this->setAtualizadoEm(new \DateTime());
     }
 
-   
 }
