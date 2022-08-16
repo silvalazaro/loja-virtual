@@ -1,0 +1,38 @@
+version: '3.2'
+services:
+    web:
+        build: ./docker
+        restart: unless-stopped
+        ports:
+            - "${APP_PORT}:8000" # app
+            - "${SSH_PORT}:22" # ssh
+            - "${APP_SECURE_PORT}:443" # https
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        volumes:
+            - '${APP_PATH}:/var/www/html'
+            - ./docker/.composer:/home/homestead/.composer # composer caching
+            - ./docker/.gitconfig:/home/homestead/.gitconfig # Git configuration ( access alias && config )
+            - ./docker/.ssh:/home/homestead/.ssh # Ssh keys for easy deployment inside the container
+            - ./docker/supervisor/conf.d:/etc/supervisor/conf.d
+        networks:
+            - loja
+        depends_on:
+            - postgres
+    postgres:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: postgres
+        ports:
+            - ${DB_PORT_DOCKER}:5432
+        networks:
+            - loja
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+networks:
+    loja:
+        driver: bridge
