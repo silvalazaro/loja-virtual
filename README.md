@@ -1,8 +1,8 @@
-Requisitos 1<br>
+Requisito 1<br>
 Instalar o Docker e Docker Compose<br>
 https://docs.docker.com/engine/install/ubuntu/<br><br>
 
-Requisitos 2<br>
+Requisito 2<br>
 As portas 8000 (web), 443 (https), 5432 (postgres), 22 (ssh) devem estar liberadas. Em caso de erro, você pode modificá-las no arquivo .env<br><br>
 
 Os comandos abaixo funcionam no Linux (Debian, Ubuntu). Farei um tutorial para o Windows<br>
